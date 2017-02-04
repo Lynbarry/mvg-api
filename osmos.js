@@ -1,0 +1,1 @@
+var osmosis = require('osmosis');

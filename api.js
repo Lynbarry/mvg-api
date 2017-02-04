@@ -40,6 +40,7 @@ function isStationUnambiguous(dom) {
 }
 
 const handler = new htmlparser.DomHandler((error, dom) => {
+    logNested(dom);
     if (isStationUnambiguous(dom)) {
         var station = select(dom, ".headerStationColumn")[0].children[0].data;
         var time = select(dom, ".serverTimeColumn")[0].children[0].data;
@@ -60,10 +61,7 @@ function sendStationRequest(station) {
     request(requestUrl, (error, response, body) => {
         if(!error && response.statusCode == 200) {
             var a = parser.write(body);            
-            var b = parser.done();
-            console.log("ieiae");
-            console.log(a);
-            console.log(b);
+            var b = parser.done();            
         } else {
             console.log("Error: " + error);
         }
