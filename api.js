@@ -1,9 +1,8 @@
 "use strict";
 const cheerio = require("cheerio");
 const request = require("request");
-const util = require('util');
 
-var Line = function(lineNumber, lineDestination, lineDepartureIn) {
+let Line = function(lineNumber, lineDestination, lineDepartureIn) {
     this.lineNumber = lineNumber;
     this.lineDestination = lineDestination;
     this.lineDepartureIn = parseInt(lineDepartureIn);
@@ -30,7 +29,7 @@ function sendStationRequest(station) {
             let linesArr = [];
 
             lines.map((index, element) => {
-                var cheerioElement = $(element);
+                const cheerioElement = $(element);
                 const lineNumber = getLineNumber(cheerioElement);
                 const lineName = getDestinationName(cheerioElement);
                 const lineDepartureIn = getLineDepartureIn(cheerioElement); 
@@ -38,7 +37,7 @@ function sendStationRequest(station) {
 
             });
 
-            let linesSorted = linesArr.sort(compareLines);
+            const linesSorted = linesArr.sort(compareLines);
         } else {
             console.log("Error: " + error);
         }
@@ -60,5 +59,3 @@ function getLineDepartureIn(cheerioElement) {
 exports.getDepartures = function(station) {
     sendStationRequest(station);
 }
-
-sendStationRequest("Harras");
