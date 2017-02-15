@@ -1,14 +1,6 @@
 var assert = require('assert');
 var Line = require('../lib/Line')
 
-describe('Array', function() {
-    describe('#indexOf()', function() {
-        it('should return -1 when the value is not present', function() {
-            assert.equal(-1, [1,2,3].indexOf(4));
-        });      
-    });
-});
-
 describe('Line', () => {
     describe('constructor', () => {
         it('should create a Line object with the correct values.', () => {
