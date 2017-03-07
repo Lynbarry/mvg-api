@@ -5,7 +5,7 @@ Node API for MVG departures.
 
 ## Installation
 
-    `npm install @lynbarry/mvg-api`
+    npm install @lynbarry/mvg-api
 
 
 ## Usage
@@ -20,8 +20,9 @@ Node API for MVG departures.
 
 ## Tests
 
-    `npm test`
+    npm test
 
 ## Contributing
 
-    In lieu of a formal style guide, take care to maintain the existing coding style. Add unit tests for any new or changed functionality. Lint and test your code.
+    In lieu of a formal style guide, take care to maintain the existing coding style.
+    Add unit tests for any new or changed functionality. Lint and test your code.
