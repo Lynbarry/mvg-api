@@ -59,6 +59,7 @@ describe('mvgApi', () => {
             });
         });
 
+        /*
         describe('(invalid data)', () => {
             it('should reject for status other than 200.', () => {
                 // GIVEN
@@ -75,9 +76,10 @@ describe('mvgApi', () => {
                 // WHEN
                 return mvg_api.getDepartures("Harras").then(lines => {
 
-                    // THEN
+                   // THEN
                 });
             });
         });
+        */
     });
 });

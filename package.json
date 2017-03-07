@@ -1,5 +1,5 @@
 {
-  "name": "mvg-api",
+  "name": "@lynbarry/mvg-api",
   "version": "0.0.1",
   "description": "Node API for MVG departures.",
   "main": "index.js",
@@ -11,7 +11,7 @@
     "soupselect": "^0.2.0"
   },
   "scripts": {
-    "test": "mocha"
+    "test": "mocha --reporter spec"
   },
   "repository": {
     "type": "git",
