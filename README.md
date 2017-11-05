@@ -1,16 +1,18 @@
 mvg-api
 =======
 
+[![Build Status](https://travis-ci.org/Lynbarry/mvg-api.svg?branch=master)](https://travis-ci.org/Lynbarry/mvg-api)
+
 Node API for MVG departures.
 
 ## Installation
 
-    npm install @fsenn/mvg-api
+    npm install @lynbarry/mvg-api
 
 
 ## Usage
 
-    const mvgApi = require('@fsenn/mvg-api');
+    const mvgApi = require('@lynbarry/mvg-api');
 
     mvgApi.getDepartures('Harras', ['ubahn', 'sbahn', 'bus', 'tram']).then(lines => {
         console.log(lines.toString());
