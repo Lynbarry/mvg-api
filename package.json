@@ -1,12 +1,12 @@
 {
-  "name": "@lynbarry/mvg-api",
-  "version": "0.0.3",
+  "name": "@fsenn/mvg-api",
+  "version": "0.0.6",
   "description": "Node API for MVG departures.",
   "main": "index.js",
   "dependencies": {
     "cheerio": "^0.22.0",
     "htmlparser2": "^3.9.2",
-    "iconv": "^2.2.1",
+    "iconv-lite": "^0.4.19",
     "request": "^2.79.0",
     "soupselect": "^0.2.0"
   },
@@ -15,14 +15,14 @@
   },
   "repository": {
     "type": "git",
-    "url": "git+https://github.com/Lynbarry/mvg-api.git"
+    "url": "git+https://github.com/florian-senn/mvg-api.git"
   },
-  "author": "Christian Brosche <c.brosche@gmail.com>",
+  "author": "Florian Senn <hey@senn.bz>",
   "license": "MIT",
   "bugs": {
-    "url": "https://github.com/Lynbarry/mvg-api/issues"
+    "url": "https://github.com/florian-senn/mvg-api/issues"
   },
-  "homepage": "https://github.com/Lynbarry/mvg-api#readme",
+  "homepage": "https://github.com/florian-senn/mvg-api#readme",
   "devDependencies": {
     "chai": "^3.5.0",
     "mocha": "^3.2.0",
