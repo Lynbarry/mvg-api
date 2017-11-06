@@ -1,6 +1,6 @@
 {
   "name": "@lynbarry/mvg-api",
-  "version": "0.0.3",
+  "version": "1.0.0",
   "description": "Node API for MVG departures.",
   "main": "index.js",
   "dependencies": {
