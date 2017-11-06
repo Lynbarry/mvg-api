@@ -6,7 +6,7 @@
   "dependencies": {
     "cheerio": "^0.22.0",
     "htmlparser2": "^3.9.2",
-    "iconv": "^2.2.1",
+    "iconv-lite": "^0.4.19",
     "request": "^2.79.0",
     "soupselect": "^0.2.0"
   },
