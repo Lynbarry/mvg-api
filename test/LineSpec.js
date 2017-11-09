@@ -1,5 +1,5 @@
 var assert = require('assert');
-var Line = require('../lib/Line')
+var Line = require('../source/Line')
 
 describe('Line', () => {
     describe('constructor', () => {

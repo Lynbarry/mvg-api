@@ -1,10 +1,10 @@
 var assert = require('chai').assert;
 var sinon = require('sinon');
-var mvg_api = require('../lib/mvgApi');
+var mvg_api = require('../source/mvgApi');
 var request = require('request');
 var fs = require('fs');
 var path = require('path');
-var Line = require('../lib/Line')
+var Line = require('../source/Line')
 
 
 var filePath = path.join(__dirname, 'testContent.html');
