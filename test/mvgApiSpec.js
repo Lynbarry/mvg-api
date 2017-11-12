@@ -4,7 +4,7 @@ var mvg_api = require('../source/mvgApi');
 var request = require('request');
 var fs = require('fs');
 var path = require('path');
-var Line = require('../source/Line')
+var Line = require('../source/Line');
 
 
 var filePath = path.join(__dirname, 'testContent.html');
@@ -27,7 +27,7 @@ describe('mvgApi', () => {
                     .yields(false, response, fakeResponse);
             });
 
-            after(function(){
+            after(function () {
                 request.get.restore();
             });
 
@@ -44,7 +44,7 @@ describe('mvgApi', () => {
                     assert.equal(20, lines.length);
                 })
             });
-            
+
 
             it('should contain a correct line.', () => {
                 // GIVEN
