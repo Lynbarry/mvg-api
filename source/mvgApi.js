@@ -8,13 +8,14 @@ const defaultApi = "https://www.mvg-live.de/ims/dfiStaticAuswahl.svc";
 
 /**
  *
- * @param station: String The name of the station you want to get the departures for.
- * @param options: Array An array of the types of transportation you want to have shown.
+ * @param {string} station - The name of the station you want to get the departures for.
+ * @param {Array} options - An array of the types of transportation you want to have shown.
  *                 Can be one or more of the following:
  *                 "ubahn", "sbahn", "tram", "bus"
  *                 If not provided, departures for all kinds of transit are shown.
- * @param apiUrl: String for custom API endpoint. If not provided, defaultApi is used
+ * @param {string} apiUrl - String for custom API endpoint. If not provided, defaultApi is used
  * @returns {Promise}
+ * @TODO: refactor function to accept Station Instance as station
  */
 function getDepartures(station, options, apiUrl = defaultApi) {
 
@@ -22,7 +23,7 @@ function getDepartures(station, options, apiUrl = defaultApi) {
 
     const requestUrl = apiUrl.concat('?haltestelle=').concat(station).concat(transitParams);
 
-    const linesPromise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         request.get({uri: requestUrl, encoding: null}, (error, response, body) => {
             if (!error && response.statusCode == 200) {
 
@@ -41,8 +42,6 @@ function getDepartures(station, options, apiUrl = defaultApi) {
             }
         });
     });
-
-    return linesPromise;
 }
 
 /**
@@ -51,6 +50,7 @@ function getDepartures(station, options, apiUrl = defaultApi) {
  * @param options
  * @param apiUrl
  * @returns {Promise}
+ * @TODO: add reject and error handling
  */
 function getDeparturesBySuggestion(suggestion, options, apiUrl = defaultApi) {
 
@@ -71,6 +71,7 @@ function getDeparturesBySuggestion(suggestion, options, apiUrl = defaultApi) {
  * @param name
  * @param apiUrl
  * @returns {Promise}
+ * @TODO: add reject and error handling
  */
 function getSuggestions(name, apiUrl = defaultApi) {
     const requestUrl = apiUrl.concat('?haltestelle=').concat(name);
