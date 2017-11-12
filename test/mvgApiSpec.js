@@ -27,7 +27,7 @@ describe('mvgApi', () => {
                     .yields(false, response, fakeResponse);
             });
 
-            after(function(){
+            after(function () {
                 request.get.restore();
             });
 
@@ -44,7 +44,7 @@ describe('mvgApi', () => {
                     assert.equal(20, lines.length);
                 })
             });
-            
+
 
             it('should contain a correct line.', () => {
                 // GIVEN
@@ -82,4 +82,14 @@ describe('mvgApi', () => {
         });
         */
     });
+    describe('defaultApi', () => {
+        describe('reachable', () => {
+            it('should answer', () => {
+                //GIVEN
+                const response = {statusCode: 200};
+                // WHEN
+                return mvg_api.getDepartures('Hauptbahnhof')
+            })
+        })
+    })
 });

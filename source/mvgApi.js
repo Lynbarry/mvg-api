@@ -2,6 +2,7 @@
 const cheerio = require("cheerio");
 const request = require("request");
 const Line = require("./Line");
+const Station = require("./Station");
 const iconv = require("iconv-lite");
 const defaultApi = "https://www.mvg-live.de/ims/dfiStaticAuswahl.svc";
 
@@ -44,6 +45,29 @@ function getDepartures(station, options, apiUrl = defaultApi) {
     return linesPromise;
 }
 
+function getSuggestions(name, apiUrl = defaultApi) {
+    const requestUrl = apiUrl.concat('?haltestelle=').concat(name);
+
+    const stationsPromise = new Promise((resolve, reject) => {
+        request.get({uri: requestUrl, encoding: null}, (error, response, body) => {
+            if (!error && response.statusCode == 200) {
+                const cheerioPage = initCheerio(body);
+                const suggestions = cheerioPage('li');
+                const suggestionsArr = extractSuggestions(suggestions, cheerioPage);
+
+                resolve(suggestionsArr);
+            } else if (!error) {
+                console.log("Connection error, status code: " + response.statusCode)
+            } else {
+                console.log("Error " + error);
+                reject(error);
+            }
+        });
+    });
+
+    return stationsPromise;
+}
+
 function buildTransitParams(options) {
     let transitParams = "";
     if (typeof options != 'undefined') {
@@ -81,6 +105,26 @@ function getLineFromCheerioElement(cheerioElement) {
     return new Line(lineNumber, lineName, lineDepartureIn)
 }
 
+function extractSuggestions(suggestions, cheerioPage) {
+    const suggestionsArr = [];
+    suggestions.map((index, element) => {
+        const cheerioElement = cheerioPage(element);
+        const suggestion = getSuggestionFromCheerioElement(cheerioElement);
+        suggestionsArr.push(suggestion);
+    });
+    return suggestionsArr;
+}
+
+function getSuggestionFromCheerioElement(cheerioElement) {
+    const suggestionName = getSuggestionName(cheerioElement);
+
+    return new Station(suggestionName)
+}
+
+function getSuggestionName(cheerioElement) {
+    return cheerioElement.find('a').text()
+}
+
 function getLineNumber(cheerioElement) {
     return cheerioElement.find('.lineColumn').text()
 }
@@ -102,3 +146,4 @@ function compareLines(lineA, lineB) {
 }
 
 exports.getDepartures = getDepartures;
+exports.getSuggestions = getSuggestions;
