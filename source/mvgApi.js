@@ -7,14 +7,14 @@ const iconv = require("iconv-lite");
 const defaultApi = "https://www.mvg-live.de/ims/dfiStaticAuswahl.svc";
 
 /**
- * Get the departures for a certain station.
  *
- * @station String The name of the station you want to get the departures for.
- * @options Array An array of the types of transportation you want to have shown.
- *          Can be one or more of the following:
- *          "ubahn", "sbahn", "tram", "bus"
- *          If not provided, departures for all kinds of transit are shown.
- * @apiUrl  String for custom API endpoint. If not provided, defaultApi is used
+ * @param station: String The name of the station you want to get the departures for.
+ * @param options: Array An array of the types of transportation you want to have shown.
+ *                 Can be one or more of the following:
+ *                 "ubahn", "sbahn", "tram", "bus"
+ *                 If not provided, departures for all kinds of transit are shown.
+ * @param apiUrl: String for custom API endpoint. If not provided, defaultApi is used
+ * @returns {Promise}
  */
 function getDepartures(station, options, apiUrl = defaultApi) {
 
@@ -45,10 +45,37 @@ function getDepartures(station, options, apiUrl = defaultApi) {
     return linesPromise;
 }
 
+/**
+ *
+ * @param suggestion
+ * @param options
+ * @param apiUrl
+ * @returns {Promise}
+ */
+function getDeparturesBySuggestion(suggestion, options, apiUrl = defaultApi) {
+
+    return new Promise((resolve, reject) => {
+        getSuggestions(suggestion, apiUrl)
+            .then(function (suggestions) {
+                return getDepartures(suggestions[0].getStationName(), options, apiUrl)
+            })
+            .then(function (lines) {
+                resolve(lines)
+            });
+    });
+
+}
+
+/**
+ *
+ * @param name
+ * @param apiUrl
+ * @returns {Promise}
+ */
 function getSuggestions(name, apiUrl = defaultApi) {
     const requestUrl = apiUrl.concat('?haltestelle=').concat(name);
 
-    const stationsPromise = new Promise((resolve, reject) => {
+    return new Promise((resolve, reject) => {
         request.get({uri: requestUrl, encoding: null}, (error, response, body) => {
             if (!error && response.statusCode == 200) {
                 const cheerioPage = initCheerio(body);
@@ -65,7 +92,6 @@ function getSuggestions(name, apiUrl = defaultApi) {
         });
     });
 
-    return stationsPromise;
 }
 
 function buildTransitParams(options) {
@@ -147,3 +173,4 @@ function compareLines(lineA, lineB) {
 
 exports.getDepartures = getDepartures;
 exports.getSuggestions = getSuggestions;
+exports.getDeparturesBySuggestion = getDeparturesBySuggestion;
