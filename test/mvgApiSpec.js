@@ -4,7 +4,7 @@ var mvg_api = require('../source/mvgApi');
 var request = require('request');
 var fs = require('fs');
 var path = require('path');
-var Line = require('../source/Line')
+var Line = require('../source/Line');
 
 
 var filePath = path.join(__dirname, 'testContent.html');
@@ -82,14 +82,4 @@ describe('mvgApi', () => {
         });
         */
     });
-    describe('defaultApi', () => {
-        describe('reachable', () => {
-            it('should answer', () => {
-                //GIVEN
-                const response = {statusCode: 200};
-                // WHEN
-                return mvg_api.getDepartures('Hauptbahnhof')
-            })
-        })
-    })
 });
