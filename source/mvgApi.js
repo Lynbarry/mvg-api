@@ -30,8 +30,6 @@ const mvgHeader = {
  */
 const departureIdEndpoint = (id) => `https://www.mvg.de/fahrinfo/api/departure/${id}?footway=0`;
 
-const stationNameEndpoint = (name) => `https://www.mvg.de/fahrinfo/api/location/queryWeb?q=${name}`;
-
 /**
  * Station endpoint. Can be used with IDs or station names.
  * 
@@ -50,8 +48,7 @@ const stationNameEndpoint = (name) => `https://www.mvg.de/fahrinfo/api/location/
                 "hasZoomData": true,
                 "products": [
                     "b",
-                    "u",
-                    "s"
+                    ...
                 ],
                 "lines": {
                     "tram": [],
@@ -64,11 +61,7 @@ const stationNameEndpoint = (name) => `https://www.mvg.de/fahrinfo/api/location/
                     ],
                     "bus": [
                         "53",
-                        "54",
-                        "130",
-                        "132",
-                        "134",
-                        "X30"
+                        ...
                     ],
                     "nachtbus": [
                         "40",
@@ -77,11 +70,20 @@ const stationNameEndpoint = (name) => `https://www.mvg.de/fahrinfo/api/location/
                     "otherlines": []
                 }
             }
-        ]
+        ],...
     }
  */
 const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${identifier}`;
 
+function getDepartures(stationName, options) {
+    return getStationId(stationName)
+    .then(stationId =>  getDeparturesById(stationId, options))
+    
+}
+
+function getStationId(stationName) {
+    return getStationByName(stationName).then(station => station.id);
+}
 
 function getStationByName(stationName) {
     const requestUri = stationEndpoint(stationName);
@@ -89,6 +91,41 @@ function getStationByName(stationName) {
     return requestPromise(requestUri)
     .then(requestBody => handleJSON(requestBody))    
     .then(jsonBody => getStationFromJSON(jsonBody));
+}
+
+function requestPromise(requestUri) {
+    return new Promise((resolve, reject) => {
+        request.get({uri: requestUri, encoding: null, headers: mvgHeader}, (error, response, body) => {
+            handleRequest(error, response, body, resolve, reject);
+        });
+    });
+}
+
+function handleRequest(error, response, body, resolve, reject) {
+    if (successfulRequest(error, response)) {
+        resolve(body)
+    } else if (!error) {
+        console.log(`Connection error, status code: ${response.statusCode}.`);
+        reject(response.statusCode);
+    } else {
+        console.log(`Error: ${error}`);
+        reject(error);
+    }
+}
+
+function successfulRequest(error, response) {
+    return !error && response.statusCode == 200;
+}
+
+function handleJSON(requestBody) {
+    return new Promise((resolve, reject) => {
+        try{
+            resolve(JSON.parse(requestBody));
+        } catch (syntaxException) {
+            console.log(`Could not parse JSON because of invalid syntax: ${syntaxException}`);
+            reject(syntaxException)
+        }
+    });
 }
 
 function getStationFromJSON(jsonBody) {
@@ -100,25 +137,6 @@ function getStationFromJSON(jsonBody) {
             console.log(`JSON wasn't formatted as expected: ${exception}`);
             reject(exception);
         }     
-    });
-}
-
-function requestPromise(requestUri) {
-    return new Promise((resolve, reject) => {
-        request.get({uri: requestUri, encoding: null, headers: mvgHeader}, (error, response, body) => {
-            handleRequest(error, response, body, resolve, reject);
-        });
-    });
-}
-
-function handleJSON(requestBody) {
-    return new Promise((resolve, reject) => {
-        try{
-            resolve(JSON.parse(requestBody));
-        } catch (syntaxException) {
-            console.log(`Could not parse JSON because of invalid syntax: ${syntaxException}`);
-            reject(syntaxException)
-        }
     });
 }
 
@@ -147,39 +165,8 @@ function getDeparturesFromJSON(jsonBody) {
     });
 }
 
-function handleRequest(error, response, body, resolve, reject) {
-    if (successfulRequest(error, response)) {
-        resolve(body)
-    } else if (!error) {
-        console.log(`Connection error, status code: ${response.statusCode}.`);
-        reject(response.statusCode);
-    } else {
-        console.log(`Error: ${error}`);
-        reject(error);
-    }
-}
-
-function successfulRequest(error, response) {
-    return !error && response.statusCode == 200;
-}
-
-function getStationId(stationName) {
-    return getStationByName(stationName).then(station => station.id);
-}
-
 function calculateTimeOffset(time) {
     return Math.round((time - Date.now()) / 60000);
 }
 
-function getDepartures(stationName, options) {
-    const departuresPromise = getStationId(stationName)
-    .then(stationId => {
-            return getDeparturesById(stationId, options);
-    })
-    return departuresPromise;
-}
-
 exports.getDepartures = getDepartures;
-exports.getDeparturesById = getDeparturesById;
-exports.getStationId = getStationId;
-exports.getStationByName = getStationByName;
