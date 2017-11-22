@@ -7,9 +7,28 @@ var path = require('path');
 var Line = require('../source/Line')
 
 
-var filePath = path.join(__dirname, 'testContent.html');
+var locationFilePath = path.join(__dirname, 'testLocation.json');
+var departureFilePath = path.join(__dirname, 'testDeparture.json');
+
 
 const localFile = false;
+
+const mvgHeader = {
+    "X-MVG-Authorization-Key": "5af1beca494712ed38d313714d4caff6"
+}
+
+function setUp(response) {
+    const fakeLocationResponse = fs.readFileSync(locationFilePath, {encoding: 'utf-8'}).toString();
+    const fakeDepartureResponse = fs.readFileSync(departureFilePath, {encoding: 'utf-8'}).toString();
+
+    const getRequest = sinon.stub(request, 'get');
+
+    getRequest.withArgs({uri: "https://www.mvg.de/fahrinfo/api/location/query?q=Harras", encoding: null, headers: mvgHeader})
+        .yields(false, response, fakeLocationResponse);
+
+    getRequest.withArgs({uri: "https://www.mvg.de/fahrinfo/api/departure/1130?footway=0", encoding: null, headers: mvgHeader})
+        .yields(false, response, fakeDepartureResponse);
+}
 
 describe('mvgApi', () => {
     describe('.getDepartures', () => {
@@ -20,18 +39,14 @@ describe('mvgApi', () => {
                     statusCode: 200
                 }
 
-                const fakeResponse = fs.readFileSync(filePath, {encoding: 'utf-8'}).toString();
-
-                sinon
-                    .stub(request, 'get')
-                    .yields(false, response, fakeResponse);
+                setUp(response);
             });
 
             after(function(){
                 request.get.restore();
             });
 
-            it('should return all 20 departures.', () => {
+            it('should return all 30 departures.', () => {
                 // GIVEN
                 const lineNumber = 1;
                 const lineDestination = 'Destination';
@@ -41,45 +56,49 @@ describe('mvgApi', () => {
                 return mvg_api.getDepartures("Harras").then(lines => {
 
                     // THEN
-                    assert.equal(20, lines.length);
+                    assert.equal(30, lines.length);
                 })
             });
             
 
             it('should contain a correct line.', () => {
                 // GIVEN
-                const testLine = new Line('S7', 'Wolfratshausen', 3)
+                const departureIn = Math.round((1511388420000 - Date.now()) / 60000);
+                const testLine = new Line('7', 'Höllriegelskreuth', departureIn, 's')
 
                 // WHEN
                 return mvg_api.getDepartures("Harras").then(lines => {
 
                     // THEN
-                    assert.deepEqual(lines[1], testLine);
+                    assert.deepEqual(lines[0], testLine);
                 })
             });
         });
 
-        /*
-        describe('(invalid data)', () => {
-            it('should reject for status other than 200.', () => {
-                // GIVEN
+
+        describe('(failed request)', () => {
+
+            before(() => {
                 const response = {
                     statusCode: 404
                 }
+                setUp(response);
+            });
 
-                const fakeResponse = fs.readFileSync(filePath, {encoding: 'utf-8'}).toString();
+            after(function(){
+                request.get.restore();
+            });
 
-                sinon
-                    .stub(request, 'get')
-                    .yields(false, response, fakeResponse);
+            it('should reject for status other than 200.', () => {
+                // GIVEN
 
                 // WHEN
-                return mvg_api.getDepartures("Harras").then(lines => {
+                return mvg_api.getDepartures("Harras").catch(error => {
 
-                   // THEN
+                    // THEN
+                    assert.equal(error, 404);
                 });
             });
         });
-        */
     });
 });

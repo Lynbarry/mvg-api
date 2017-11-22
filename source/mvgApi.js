@@ -77,8 +77,7 @@ const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/locatio
 
 function getDepartures(stationName, options) {
     return getStationId(stationName)
-    .then(stationId =>  getDeparturesById(stationId, options))
-    
+    .then(stationId =>  getDeparturesById(stationId, options));
 }
 
 function getStationId(stationName) {
@@ -105,10 +104,10 @@ function handleRequest(error, response, body, resolve, reject) {
     if (successfulRequest(error, response)) {
         resolve(body)
     } else if (!error) {
-        console.log(`Connection error, status code: ${response.statusCode}.`);
+        console.error(`Connection error, status code: ${response.statusCode}.`);
         reject(response.statusCode);
     } else {
-        console.log(`Error: ${error}`);
+        console.error(`Error: ${error}`);
         reject(error);
     }
 }
@@ -122,7 +121,7 @@ function handleJSON(requestBody) {
         try{
             resolve(JSON.parse(requestBody));
         } catch (syntaxException) {
-            console.log(`Could not parse JSON because of invalid syntax: ${syntaxException}`);
+            console.error(`Could not parse JSON because of invalid syntax: ${syntaxException}`);
             reject(syntaxException)
         }
     });
@@ -134,7 +133,7 @@ function getStationFromJSON(jsonBody) {
             const station = jsonBody.locations[0];
             resolve(station);
         } catch (exception) {
-            console.log(`JSON wasn't formatted as expected: ${exception}`);
+            console.error(`JSON wasn't formatted as expected: ${exception}`);
             reject(exception);
         }     
     });
@@ -145,24 +144,37 @@ function getDeparturesById(stationId, options) {
 
     return requestPromise(requestUri)
     .then(requestBody => handleJSON(requestBody))
-    .then(jsonBody => getDeparturesFromJSON(jsonBody));
+    .then(jsonBody => getLinesFromJSON(jsonBody, options));
 }
 
-function getDeparturesFromJSON(jsonBody) {
+function getLinesFromJSON(jsonBody, options) {
     return new Promise((resolve, reject) => {
         const departures = jsonBody.departures;
-        departures.map(departure => {
-            departure.departureIn = calculateTimeOffset(departure.departureTime);
-        });
-        if (typeof(options) != "undefined") {
-            const filteredDepartures = departures.filter(departure => {                            
-                return options.includes(departure.product);
-            });
-            resolve(filteredDepartures);
-        } else {
-            resolve(departures);
-        } 
+        try {
+            const lines = convertDeparturesToLine(departures)
+            const filteredLines = filterLines(lines, options);
+            resolve(filteredLines);
+        } catch (exception) {
+            console.error(`Could not get Lines from JSON: ${exception}`);
+            reject(exception);
+        }
     });
+}
+
+function convertDeparturesToLine(departures) {
+    return departures.map(departure => {
+        return new Line(departure.label, departure.destination, calculateTimeOffset(departure.departureTime), departure.product)
+    });
+}
+
+function filterLines(lines, options) {
+    if (typeof(options) != "undefined") {
+        return lines.filter(line => {
+            return options.includes(line.lineType);
+        });
+    } else {
+        return lines;
+    }
 }
 
 function calculateTimeOffset(time) {
