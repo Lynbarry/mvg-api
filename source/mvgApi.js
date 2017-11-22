@@ -1,8 +1,6 @@
 "use strict";
-const cheerio = require("cheerio");
 const request = require("request");
 const Line = require("./Line");
-const iconv = require("iconv-lite");
 const defaultApi = "https://www.mvg-live.de/ims/dfiStaticAuswahl.svc";
 
 const mvgHeader = {
