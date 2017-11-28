@@ -86,7 +86,7 @@ function getStationByName(stationName, apiRedirectUrl) {
     let requestUri = stationEndpoint(stationName);
 
     if (typeof apiRedirectUrl == "string") {
-        requestUri = `${apiRedirectUrl}${requestUri}`;
+        requestUri = `${apiRedirectUrl}/${requestUri}`;
     }
 
     return requestPromise(requestUri)
@@ -145,7 +145,7 @@ function getDeparturesById(stationId, options, apiRedirectUrl) {
     let requestUri = departureIdEndpoint(stationId);
 
     if (typeof apiRedirectUrl == "string") {
-        requestUri = `${apiRedirectUrl}${requestUri}`;
+        requestUri = `${apiRedirectUrl}/${requestUri}`;
     }
 
     return requestPromise(requestUri)
