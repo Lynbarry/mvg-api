@@ -1,3 +1,3 @@
 'use strict';
 
-module.exports = require('./lib/mvgApi');
+module.exports = require('./distribution/mvgApi');

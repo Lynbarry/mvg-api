@@ -1,0 +1,304 @@
+{
+    "departures": [
+        {
+            "departureTime": 1511388420000,
+            "product": "s",
+            "label": "7",
+            "destination": "Höllriegelskreuth",
+            "live": true,
+            "lineBackgroundColor": "#964438",
+            "departureId": -296624174,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388442000,
+            "product": "u",
+            "label": "6",
+            "destination": "Klinikum Großhadern",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": 660369224,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388540000,
+            "product": "b",
+            "label": "54",
+            "destination": "Münchner Freiheit",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -269489098,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388600000,
+            "product": "b",
+            "label": "53",
+            "destination": "Münchner Freiheit",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 1193850061,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388644000,
+            "product": "b",
+            "label": "132",
+            "destination": "Marienplatz",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -170774459,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388707000,
+            "product": "b",
+            "label": "130",
+            "destination": "Am Harras",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -1284713533,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388810000,
+            "product": "b",
+            "label": "54",
+            "destination": "Lorettoplatz",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 912233527,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388860000,
+            "product": "b",
+            "label": "53",
+            "destination": "Aidenbachstraße",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 1537300491,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388860000,
+            "product": "u",
+            "label": "6",
+            "destination": "Garching-Forschungszentrum",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": -1389137884,
+            "sev": false
+        },
+        {
+            "departureTime": 1511388930000,
+            "product": "b",
+            "label": "130",
+            "destination": "Pasing Bf.",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -1675152394,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389010000,
+            "product": "u",
+            "label": "6",
+            "destination": "Klinikum Großhadern",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": 1637784712,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389140000,
+            "product": "s",
+            "label": "7",
+            "destination": "Höhenkirchen-Siegertsbrunn",
+            "live": true,
+            "lineBackgroundColor": "#964438",
+            "departureId": 593529973,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389230000,
+            "product": "b",
+            "label": "134",
+            "destination": "Fürstenried West",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -393361021,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389320000,
+            "product": "s",
+            "label": "7",
+            "destination": "Wolfratshausen",
+            "live": true,
+            "lineBackgroundColor": "#964438",
+            "departureId": 1883989826,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389460000,
+            "product": "u",
+            "label": "6",
+            "destination": "Fröttmaning",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": -1119408583,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389530000,
+            "product": "b",
+            "label": "134",
+            "destination": "Theresienhöhe",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -638592674,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389640000,
+            "product": "u",
+            "label": "6",
+            "destination": "Klinikum Großhadern",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": -188721192,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389740000,
+            "product": "b",
+            "label": "54",
+            "destination": "Münchner Freiheit",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -1079947338,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389800000,
+            "product": "b",
+            "label": "53",
+            "destination": "Münchner Freiheit",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 395878989,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389830000,
+            "product": "b",
+            "label": "130",
+            "destination": "Am Harras",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 319110955,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389830000,
+            "product": "b",
+            "label": "132",
+            "destination": "Marienplatz",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -1326580939,
+            "sev": false
+        },
+        {
+            "departureTime": 1511389920000,
+            "product": "b",
+            "label": "132",
+            "destination": "Forstenrieder Park",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 426671682,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390010000,
+            "product": "b",
+            "label": "54",
+            "destination": "Lorettoplatz",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 126749623,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390010000,
+            "product": "b",
+            "label": "53",
+            "destination": "Aidenbachstraße",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -477779237,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390060000,
+            "product": "u",
+            "label": "6",
+            "destination": "Garching-Forschungszentrum",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": 2095371172,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390130000,
+            "product": "b",
+            "label": "130",
+            "destination": "Pasing Bf.",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": 1821843830,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390210000,
+            "product": "u",
+            "label": "6",
+            "destination": "Klinikum Großhadern",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": 827326472,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390220000,
+            "product": "s",
+            "label": "7",
+            "destination": "München Ost",
+            "live": true,
+            "lineBackgroundColor": "#964438",
+            "departureId": -1651447457,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390430000,
+            "product": "b",
+            "label": "134",
+            "destination": "Fürstenried West",
+            "live": true,
+            "lineBackgroundColor": "#0d5c70",
+            "departureId": -1191332093,
+            "sev": false
+        },
+        {
+            "departureTime": 1511390660000,
+            "product": "u",
+            "label": "6",
+            "destination": "Fröttmaning",
+            "live": true,
+            "lineBackgroundColor": "#0472b3",
+            "departureId": -1929866823,
+            "sev": false
+        }
+    ]
+}

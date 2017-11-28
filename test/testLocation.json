@@ -1,0 +1,42 @@
+{
+    "locations": [
+        {
+            "type": "station",
+            "latitude": 48.116876,
+            "longitude": 11.536213,
+            "id": 1130,
+            "place": "München",
+            "name": "Harras",
+            "hasLiveData": false,
+            "hasZoomData": true,
+            "products": [
+                "b",
+                "u",
+                "s"
+            ],
+            "lines": {
+                "tram": [],
+                "nachttram": [],
+                "sbahn": [
+                    "7"
+                ],
+                "ubahn": [
+                    "6"
+                ],
+                "bus": [
+                    "53",
+                    "54",
+                    "130",
+                    "132",
+                    "134",
+                    "X30"
+                ],
+                "nachtbus": [
+                    "40",
+                    "41"
+                ],
+                "otherlines": []
+            }
+        }
+    ]
+}
