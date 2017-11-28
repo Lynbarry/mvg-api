@@ -74,12 +74,12 @@ const departureIdEndpoint = (id) => `https://www.mvg.de/fahrinfo/api/departure/$
 const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${identifier}`;
 
 function getDepartures(stationName, options, apiRedirectUrl) {
-    return getStationId(stationName)
+    return getStationId(stationName, apiRedirectUrl)
     .then(stationId =>  getDeparturesById(stationId, options, apiRedirectUrl));
 }
 
 function getStationId(stationName, apiRedirectUrl) {
-    return getStationByName(stationName).then(station => station.id);
+    return getStationByName(stationName, apiRedirectUrl).then(station => station.id);
 }
 
 function getStationByName(stationName, apiRedirectUrl) {
