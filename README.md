@@ -14,7 +14,7 @@ Node API for MVG departures.
 
 The "getDepartures" function takes up to three parameters:
 * __station__: A String containing the name of the desired station.
-* __options__: A list of strings containing the types of transport that are supposed to be shown.
+* __options__: A list of strings containing the types of transport that are supposed to be shown. (u = ubahn, s = sbahn, b = bus, t = tram)
 * __apiUrl (Optional)__: A String containing the URL of the desired API endpoint. Can be used to get around CORS problems. Defaults to the mvg-URL.
 
 ### Example
@@ -22,7 +22,7 @@ The "getDepartures" function takes up to three parameters:
 
     const mvgApi = require('@lynbarry/mvg-api');
 
-    mvgApi.getDepartures('Harras', ['ubahn', 'sbahn', 'bus', 'tram']).then(lines => {
+    mvgApi.getDepartures('Harras', ['u', 's', 'b', 't']).then(lines => {
         console.log(lines);
     });
 
@@ -31,28 +31,31 @@ Output is a list of departures:
 
 ```
 [ { [Number: 0]
-    lineNumber: 'U6',
+    lineNumber: '6',
     lineDestination: 'Klinikum Großhadern',
-    lineDepartureIn: 0 },
+    lineDepartureIn: 0,
+    lineType: 'u' },
   { [Number: 4]
-    lineNumber: 'U6',
+    lineNumber: '6',
     lineDestination: 'Garching-Forschungszentrum',
-    lineDepartureIn: 4 },
+    lineDepartureIn: 4,
+    lineType: 'u' },
   { [Number: 11]
-    lineNumber: 'U6',
+    lineNumber: '6',
     lineDestination: 'Klinikum Großhadern',
-    lineDepartureIn: 11 },
+    lineDepartureIn: 11,
+    lineType: 'u' },
     ...
 ```
 
 You can also use the `toString` method to get a list in human readable form:
 
 ```
-2	Line U6:	Garching-Forschungszentrum,
-8	Line U6:	Klinikum Großhadern,
-9	Line U6:	Fröttmaning,
-13	Line U6:	Garching-Forschungszentrum,
-15	Line U6:	Klinikum Großhadern,
+2	U6:	Garching-Forschungszentrum,
+8	U6:	Klinikum Großhadern,
+9	U6:	Fröttmaning,
+13	U6:	Garching-Forschungszentrum,
+15	U6:	Klinikum Großhadern,
 ```
 
 ## Tests

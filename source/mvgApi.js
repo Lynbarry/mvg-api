@@ -73,17 +73,21 @@ const departureIdEndpoint = (id) => `https://www.mvg.de/fahrinfo/api/departure/$
  */
 const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${identifier}`;
 
-function getDepartures(stationName, options) {
+function getDepartures(stationName, options, apiRedirectUrl) {
     return getStationId(stationName)
-    .then(stationId =>  getDeparturesById(stationId, options));
+    .then(stationId =>  getDeparturesById(stationId, options, apiRedirectUrl));
 }
 
-function getStationId(stationName) {
+function getStationId(stationName, apiRedirectUrl) {
     return getStationByName(stationName).then(station => station.id);
 }
 
-function getStationByName(stationName) {
-    const requestUri = stationEndpoint(stationName);
+function getStationByName(stationName, apiRedirectUrl) {
+    let requestUri = stationEndpoint(stationName);
+
+    if (typeof apiRedirectUrl == "string") {
+        requestUri = `${apiRedirectUrl}${requestUri}`;
+    }
 
     return requestPromise(requestUri)
     .then(requestBody => handleJSON(requestBody))    
@@ -137,8 +141,12 @@ function getStationFromJSON(jsonBody) {
     });
 }
 
-function getDeparturesById(stationId, options) {
-    const requestUri = departureIdEndpoint(stationId);
+function getDeparturesById(stationId, options, apiRedirectUrl) {
+    let requestUri = departureIdEndpoint(stationId);
+
+    if (typeof apiRedirectUrl == "string") {
+        requestUri = `${apiRedirectUrl}${requestUri}`;
+    }
 
     return requestPromise(requestUri)
     .then(requestBody => handleJSON(requestBody))
