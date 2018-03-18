@@ -12,7 +12,7 @@ Line.prototype.valueOf = function () {
 }
 
 Line.prototype.toString = function lineToString() {
-    return `\r\n ${this.lineDepartureIn} \t ${this.lineType.toUpperCase()}${this.lineNumber}:\t ${this.lineDestination}`;
+    return `\r\n ${this.lineDepartureIn} \t ${this.lineType} ${this.lineNumber}:\t ${this.lineDestination}`;
 }
 
 exports = module.exports = Line

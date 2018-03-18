@@ -4,7 +4,7 @@
   "description": "Node API for MVG departures.",
   "main": "./distribution/index.js",
   "dependencies": {
-    "request": "^2.79.0"
+    "request": "^2.85.0"
   },
   "scripts": {
     "test": "mocha --reporter spec",
@@ -24,7 +24,7 @@
   "devDependencies": {
     "babel-cli": "^6.26.0",
     "babel-preset-es2015": "^6.24.1",
-    "chai": "^3.5.0",
+    "chai": "^4.0.0",
     "mocha": "^3.2.0",
     "sinon": "^1.17.7"
   }

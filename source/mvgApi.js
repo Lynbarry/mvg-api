@@ -1,7 +1,6 @@
 "use strict";
 const request = require("request");
 const Line = require("./Line");
-const defaultApi = "https://www.mvg-live.de/ims/dfiStaticAuswahl.svc";
 
 const mvgHeader = {
     "X-MVG-Authorization-Key": "5af1beca494712ed38d313714d4caff6"
@@ -11,15 +10,26 @@ const mvgHeader = {
  * Departure endpoint. Returns Json in the form of:
  * 
  * {
+        "servingLines": [
+            {
+                "destination": "Aying",
+                "sev": false,
+                "partialNet": "mvv",
+                "product": "SBAHN",
+                "lineNumber": "S7",
+                "divaId": "01007"
+            },
+            ...
+        ],
         "departures": [
             {
-                "departureTime": 1510687290000,
-                "product": "b",
-                "label": "X30",
-                "destination": "Ostbahnhof",
+                "departureTime": 1521389340000,
+                "product": "BUS",
+                "label": "53",
+                "destination": "Münchner Freiheit",
                 "live": true,
-                "lineBackgroundColor": "#5c947d",
-                "departureId": -1297847819,
+                "lineBackgroundColor": "#0d5c70",
+                "departureId": -1966429330,
                 "sev": false
             },
             ...
@@ -33,49 +43,59 @@ const departureIdEndpoint = (id) => `https://www.mvg.de/fahrinfo/api/departure/$
  * 
  * Returns Json in the form of:
  * 
- * {
-        "locations": [
-            {
-                "type": "station",
-                "latitude": 48.116876,
-                "longitude": 11.536213,
-                "id": 1130,
-                "place": "München",
-                "name": "Harras",
-                "hasLiveData": false,
-                "hasZoomData": true,
-                "products": [
-                    "b",
-                    ...
+{
+    "locations": [
+        {
+            "type": "station",
+            "latitude": 48.116876,
+            "longitude": 11.536213,
+            "id": 1130,
+            "place": "München",
+            "name": "Harras",
+            "hasLiveData": false,
+            "hasZoomData": true,
+            "products": [
+                "BUS",
+                "UBAHN",
+                "SBAHN"
+            ],
+            "lines": {
+                "tram": [],
+                "nachttram": [],
+                "sbahn": [
+                    "S7"
                 ],
-                "lines": {
-                    "tram": [],
-                    "nachttram": [],
-                    "sbahn": [
-                        "7"
-                    ],
-                    "ubahn": [
-                        "6"
-                    ],
-                    "bus": [
-                        "53",
-                        ...
-                    ],
-                    "nachtbus": [
-                        "40",
-                        "41"
-                    ],
-                    "otherlines": []
-                }
+                "ubahn": [
+                    "U6"
+                ],
+                "bus": [
+                    "53",
+                    "54",
+                    "130",
+                    "132",
+                    "134",
+                    "X30"
+                ],
+                "nachtbus": [
+                    "N40",
+                    "N41"
+                ],
+                "otherlines": []
             }
-        ],...
-    }
+        }
+    ]
+}
  */
 const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${identifier}`;
 
-function getDepartures(stationName, options, apiRedirectUrl) {
+/**
+ * @param {String} stationName
+ * @param {Array<String>} transportTypes
+ * @param {String} [apiRedirectUrl]
+ */
+function getDepartures(stationName, transportTypes, apiRedirectUrl) {
     return getStationId(stationName, apiRedirectUrl)
-    .then(stationId =>  getDeparturesById(stationId, options, apiRedirectUrl));
+    .then(stationId =>  getDeparturesById(stationId, transportTypes, apiRedirectUrl));
 }
 
 function getStationId(stationName, apiRedirectUrl) {

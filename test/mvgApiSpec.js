@@ -10,9 +10,6 @@ var Line = require('../source/Line')
 var locationFilePath = path.join(__dirname, 'testLocation.json');
 var departureFilePath = path.join(__dirname, 'testDeparture.json');
 
-
-const localFile = false;
-
 const mvgHeader = {
     "X-MVG-Authorization-Key": "5af1beca494712ed38d313714d4caff6"
 }
