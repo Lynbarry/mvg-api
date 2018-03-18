@@ -89,9 +89,9 @@ const departureIdEndpoint = (id) => `https://www.mvg.de/fahrinfo/api/departure/$
 const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${identifier}`;
 
 /**
- * @param {String} stationName
- * @param {Array<String>} transportTypes
- * @param {String} [apiRedirectUrl]
+ * @param {String} stationName 'The name of the station, for example 'Hauptbahnhof'.
+ * @param {Array<String>} transportTypes 'The types of transport, for example ['UBAHN', 'SBAHN']'
+ * @param {String} [apiRedirectUrl] 'An optional redirect URL.'
  */
 function getDepartures(stationName, transportTypes, apiRedirectUrl) {
     return getStationId(stationName, apiRedirectUrl)
