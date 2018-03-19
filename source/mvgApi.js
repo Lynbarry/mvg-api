@@ -90,7 +90,7 @@ const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/locatio
 
 /**
  * @param {String} stationName 'The name of the station, for example 'Hauptbahnhof'.
- * @param {Array<String>} transportTypes 'The types of transport, for example ['UBAHN', 'SBAHN']'
+ * @param {Array<String>} [transportTypes] 'Optional: The types of transport, for example ['u', 's']. If not provided, all types will be used.'
  * @param {String} [apiRedirectUrl] 'An optional redirect URL.'
  */
 function getDepartures(stationName, transportTypes, apiRedirectUrl) {
@@ -189,17 +189,57 @@ function getLinesFromJSON(jsonBody, options) {
 
 function convertDeparturesToLine(departures) {
     return departures.map(departure => {
-        return new Line(departure.label, departure.destination, calculateTimeOffset(departure.departureTime), departure.product)
+        return new Line(departure.label, departure.destination, calculateTimeOffset(departure.departureTime), convertMvgLineTypeToMyLineType(departure.product))
     });
+}
+
+function convertMvgLineTypeToMyLineType(lineType) {
+    switch(lineType) {
+        case 'UBAHN':
+            return 'u';
+            break;
+        case 'SBAHN':
+            return 's';
+            break;
+        case 'BUS':
+            return 'b';
+            break;
+        case 'TRAM':
+            return 't';
+            break;
+        default:
+            return lineType;
+    }
 }
 
 function filterLines(lines, options) {
     if (typeof(options) != "undefined") {
+        const convertedOptions = options.map(type => convertMvgLineTypeToMyLineType(type))
+
         return lines.filter(line => {
-            return options.includes(line.lineType);
+            return convertedOptions.includes(line.lineType);
         });
     } else {
         return lines;
+    }
+}
+
+function convertMyLineTypeToMvgLineType(lineType) {
+    switch(lineType) {
+        case 'u':
+            return 'UBAHN';
+            break;
+        case 's':
+            return 'SBAHN';
+            break;
+        case 'b':
+            return 'BUS';
+            break;
+        case 't':
+            return 'TRAM';
+            break;
+        default:
+            return lineType;
     }
 }
 

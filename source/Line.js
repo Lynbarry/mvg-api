@@ -1,13 +1,13 @@
 "use strict";
 
 /**
- * @param {String} lineNumber 'The number of the line, for example 'U6'.
+ * @param {String} lineNumber 'The number of the line, for example '6'.
  * @param {String} lineDestination The name of the destination station.
  * @param {Number} lineDepartureIn The time until departure in minutes.
- * @param {String} lineType The type of line, for example 'UBAHN'.
+ * @param {String} lineType The type of line, for example 'u'.
  */
 let Line = function (lineNumber, lineDestination, lineDepartureIn, lineType) {
-    this.lineNumber = lineNumber;
+    this.lineNumber = getLineNumber(lineType, lineNumber);
     this.lineDestination = lineDestination;
     this.lineDepartureIn = parseInt(lineDepartureIn);
     this.lineType = lineType;
@@ -18,7 +18,36 @@ Line.prototype.valueOf = function () {
 }
 
 Line.prototype.toString = function lineToString() {
-    return `\r\n ${this.lineDepartureIn} \t ${this.lineType} ${this.lineNumber}:\t ${this.lineDestination}`;
+    return `\r\n ${this.lineDepartureIn} \t ${this.lineName()}:\t ${this.lineDestination}`;
 }
+
+Line.prototype.lineName = function() {
+    switch(this.lineType) {
+        case 'u':
+            return `U${this.lineNumber}`;
+        case 's':
+            return `S${this.lineNumber}`;
+        case 'b':
+            return `Bus ${this.lineNumber}`;
+        case 't':
+            return `Tram ${this.lineNumber}`;
+        default:
+            return `${this.lineType} ${this.lineNumber}`;
+    }
+}
+
+function getLineNumber(lineType, mvgLineNumber) {
+    switch(lineType) {
+        case 'u':
+        case 's':
+            return parseInt(mvgLineNumber.slice(1));
+        case 'b':
+        case 't':
+        default:
+            return parseInt(mvgLineNumber);
+
+    }
+}
+
 
 exports = module.exports = Line

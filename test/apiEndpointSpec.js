@@ -71,6 +71,16 @@ describe('The MVG Endpoint for', () => {
                     const product = departure.product;
                     assert.oneOf(product, ['UBAHN', 'SBAHN', 'BUS', 'TRAM'], 'The type of transportation was of unknown kind.')
 
+                    const label = departure.label;
+
+                    expect(label).to.satisfy((label) => {
+                        switch(product){
+                            case 'UBAHN': return label.startsWith('U');
+                            case 'SBAHN': return label.startsWith('S');
+                            default: return !isNaN(parseInt(label));
+                        }
+                    })
+
                     done();
                 }
             )

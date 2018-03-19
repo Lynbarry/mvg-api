@@ -14,7 +14,7 @@ Node API for MVG departures.
 
 The "getDepartures" function takes up to three parameters:
 * __station__: A String containing the name of the desired station.
-* __transportTypes__: A list of strings containing the types of transport that are supposed to be shown. (UBAHN, SBAHN, BUS, TRAM)
+* __transportTypes__: A list of strings containing the types of transport that are supposed to be shown. (u = ubahn, s = sbahn, b = bus, t = tram)
 * __apiRedirectUrl (Optional)__: A String containing the URL of a redirect endpoint. If given, the requests will be sent to `apiRedirectUrl/mvgEndpoint`. You may need this to get around CORS problems when making requests in the frontend. Defaults to the mvg-URL.
 
 ### Example
@@ -22,7 +22,7 @@ The "getDepartures" function takes up to three parameters:
 
     const mvgApi = require('@lynbarry/mvg-api');
 
-    mvgApi.getDepartures('Harras', ['UBAHN', 'SBAHN', 'BUS', 'TRAM']).then(lines => {
+    mvgApi.getDepartures('Harras', ['u', 's', 'b', 't']).then(lines => {
         console.log(lines);
     });
 
