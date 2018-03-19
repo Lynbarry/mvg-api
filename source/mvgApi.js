@@ -161,7 +161,7 @@ function getStationFromJSON(jsonBody) {
     });
 }
 
-function getDeparturesById(stationId, options, apiRedirectUrl) {
+function getDeparturesById(stationId, transportTypes, apiRedirectUrl) {
     let requestUri = departureIdEndpoint(stationId);
 
     if (typeof apiRedirectUrl == "string") {
@@ -170,15 +170,15 @@ function getDeparturesById(stationId, options, apiRedirectUrl) {
 
     return requestPromise(requestUri)
     .then(requestBody => handleJSON(requestBody))
-    .then(jsonBody => getLinesFromJSON(jsonBody, options));
+    .then(jsonBody => getLinesFromJSON(jsonBody, transportTypes));
 }
 
-function getLinesFromJSON(jsonBody, options) {
+function getLinesFromJSON(jsonBody, transportTypes) {
     return new Promise((resolve, reject) => {
         const departures = jsonBody.departures;
         try {
             const lines = convertDeparturesToLine(departures)
-            const filteredLines = filterLines(lines, options);
+            const filteredLines = filterLines(lines, transportTypes);
             resolve(filteredLines);
         } catch (exception) {
             console.error(`Could not get Lines from JSON: ${exception}`);
@@ -197,49 +197,25 @@ function convertMvgLineTypeToMyLineType(lineType) {
     switch(lineType) {
         case 'UBAHN':
             return 'u';
-            break;
         case 'SBAHN':
             return 's';
-            break;
         case 'BUS':
             return 'b';
-            break;
         case 'TRAM':
             return 't';
-            break;
         default:
             return lineType;
     }
 }
 
-function filterLines(lines, options) {
-    if (typeof(options) != "undefined") {
-        const convertedOptions = options.map(type => convertMvgLineTypeToMyLineType(type))
+function filterLines(lines, transportTypes) {
+    if (typeof(transportTypes) != "undefined") {
 
         return lines.filter(line => {
-            return convertedOptions.includes(line.lineType);
+            return transportTypes.includes(line.lineType);
         });
     } else {
         return lines;
-    }
-}
-
-function convertMyLineTypeToMvgLineType(lineType) {
-    switch(lineType) {
-        case 'u':
-            return 'UBAHN';
-            break;
-        case 's':
-            return 'SBAHN';
-            break;
-        case 'b':
-            return 'BUS';
-            break;
-        case 't':
-            return 'TRAM';
-            break;
-        default:
-            return lineType;
     }
 }
 
