@@ -1,7 +1,8 @@
 mvg-api
 =======
 
-[![Build Status](https://travis-ci.org/Lynbarry/mvg-api.svg?branch=master)](https://travis-ci.org/Lynbarry/mvg-api)
+[![Build Status](https://img.shields.io/travis/Lynbarry/mvg-api/master.svg)](https://travis-ci.org/Lynbarry/mvg-api)
+
 
 Node API for MVG departures.
 
