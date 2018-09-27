@@ -10,18 +10,18 @@
             "hasLiveData": false,
             "hasZoomData": true,
             "products": [
-                "b",
-                "u",
-                "s"
+                "BUS",
+                "UBAHN",
+                "SBAHN"
             ],
             "lines": {
                 "tram": [],
                 "nachttram": [],
                 "sbahn": [
-                    "7"
+                    "S7"
                 ],
                 "ubahn": [
-                    "6"
+                    "U6"
                 ],
                 "bus": [
                     "53",
@@ -32,8 +32,8 @@
                     "X30"
                 ],
                 "nachtbus": [
-                    "40",
-                    "41"
+                    "N40",
+                    "N41"
                 ],
                 "otherlines": []
             }

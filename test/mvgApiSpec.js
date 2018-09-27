@@ -60,14 +60,14 @@ describe('mvgApi', () => {
 
             it('should contain a correct line.', () => {
                 // GIVEN
-                const departureIn = Math.round((1511388420000 - Date.now()) / 60000);
-                const testLine = new Line('7', 'Höllriegelskreuth', departureIn, 's')
+                const departureIn = Math.round((1538025210000 - Date.now()) / 60000);
+                const testDeparture = new Line('68', 'Silberhornstraße', departureIn, 'b')
 
                 // WHEN
-                return mvg_api.getDepartures("Harras").then(lines => {
+                return mvg_api.getDepartures("Harras").then(departures => {
 
                     // THEN
-                    assert.deepEqual(lines[0], testLine);
+                    assert.deepEqual(departures[0], testDeparture);
                 })
             });
         });
