@@ -86,7 +86,7 @@ const departureIdEndpoint = (id) => `https://www.mvg.de/fahrinfo/api/departure/$
     ]
 }
  */
-const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${identifier}`;
+const stationEndpoint = (identifier) => `https://www.mvg.de/fahrinfo/api/location/query?q=${encodeURI(identifier)}`;
 
 /**
  * @param {String} stationName 'The name of the station, for example 'Hauptbahnhof'.
