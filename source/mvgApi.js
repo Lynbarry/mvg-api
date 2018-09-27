@@ -199,6 +199,7 @@ function convertMvgLineTypeToMyLineType(lineType) {
             return 'u';
         case 'SBAHN':
             return 's';
+        case 'REGIONAL_BUS':
         case 'BUS':
             return 'b';
         case 'TRAM':
