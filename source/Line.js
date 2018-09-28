@@ -7,7 +7,7 @@
  * @param {String} lineType The type of line, for example 'u'.
  */
 let Line = function (lineNumber, lineDestination, lineDepartureIn, lineType) {
-    this.lineNumber = getLineNumber(lineType, lineNumber);
+    this.lineNumber = getLineNumber(lineNumber);
     this.lineDestination = lineDestination;
     this.lineDepartureIn = parseInt(lineDepartureIn);
     this.lineType = lineType;
@@ -36,17 +36,8 @@ Line.prototype.lineName = function() {
     }
 }
 
-function getLineNumber(lineType, mvgLineNumber) {
-    switch(lineType) {
-        case 'u':
-        case 's':
-            return parseInt(mvgLineNumber.slice(1));
-        case 'b':
-        case 't':
-        default:
-            return parseInt(mvgLineNumber);
-
-    }
+function getLineNumber(mvgLineNumber) {
+    return parseInt(mvgLineNumber.match(/\d+/g)[0])
 }
 
 
