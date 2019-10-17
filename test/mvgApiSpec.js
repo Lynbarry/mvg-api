@@ -20,10 +20,10 @@ function setUp(response) {
 
     const getRequest = sinon.stub(request, 'get');
 
-    getRequest.withArgs({uri: "https://www.mvg.de/fahrinfo/api/location/query?q=Harras", encoding: null, headers: mvgHeader})
+    getRequest.withArgs({uri: "https://www.mvg.de/api/fahrinfo/location/query?q=Harras", encoding: null, headers: mvgHeader})
         .yields(false, response, fakeLocationResponse);
 
-    getRequest.withArgs({uri: "https://www.mvg.de/fahrinfo/api/departure/1130?footway=0", encoding: null, headers: mvgHeader})
+    getRequest.withArgs({uri: "https://www.mvg.de/api/fahrinfo/departure/1130?footway=0", encoding: null, headers: mvgHeader})
         .yields(false, response, fakeDepartureResponse);
 }
 

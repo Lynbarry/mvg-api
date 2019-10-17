@@ -18,7 +18,7 @@ describe('The MVG Endpoint for', () => {
     describe('stations', () => {
         it('should return a response with the expected JSON structure.', (done) => {
             // GIVEN
-            const stationEndpoint = 'https://www.mvg.de/fahrinfo/api/location/query?q=Hauptbahnhof';
+            const stationEndpoint = 'https://www.mvg.de/api/fahrinfo/location/query?q=Hauptbahnhof';
 
             // WHEN
             request.get(
@@ -47,7 +47,7 @@ describe('The MVG Endpoint for', () => {
     describe('departures', () => {
         it('should return a response with the expected JSON structure.', (done) => {
             // GIVEN
-            const departureIdEndpoint = 'https://www.mvg.de/fahrinfo/api/departure/6?footway=0';
+            const departureIdEndpoint = 'https://www.mvg.de/api/fahrinfo/departure/6?footway=0';
 
             // WHEN
             request.get(
