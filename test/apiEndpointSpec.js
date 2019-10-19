@@ -69,7 +69,7 @@ describe('The MVG Endpoint for', () => {
                     assert.containsAllKeys(departure, expectedKeys, "JSON for departure did not contain station id.");
 
                     const product = departure.product;
-                    assert.oneOf(product, ['UBAHN', 'SBAHN', 'BUS', 'TRAM'], 'The type of transportation was of unknown kind.')
+                    assert.oneOf(product, ['UBAHN', 'SBAHN', 'BUS', 'REGIONAL_BUS', 'TRAM'], 'The type of transportation was of unknown kind.')
 
                     const label = departure.label;
 
