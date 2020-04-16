@@ -1,7 +1,6 @@
 const assert = require("chai").assert;
 const expect = require("chai").expect;
 const request = require("request");
-const needle = require("needle");
 
 const mvgHeader = {
   "X-MVG-Authorization-Key": "5af1beca494712ed38d313714d4caff6",
@@ -64,7 +63,7 @@ describe("The MVG Endpoint for", () => {
         "https://www.mvg.de/api/fahrinfo/departure/de:09162:6?footway=0";
 
       // WHEN
-      needle.get(
+      jest.requireActual("needle").get(
         departureIdEndpoint,
         {
           response_timeout: 3000,
