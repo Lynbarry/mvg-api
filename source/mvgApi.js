@@ -1,10 +1,6 @@
 "use strict";
-const request = require("request");
+const needle = require("needle");
 const Line = require("./Line");
-
-const mvgHeader = {
-    "X-MVG-Authorization-Key": "5af1beca494712ed38d313714d4caff6"
-}
 
 /**
  * Departure endpoint. Returns Json in the form of:
@@ -36,7 +32,8 @@ const mvgHeader = {
         ]
     }
  */
-const departureIdEndpoint = (id) => `https://www.mvg.de/api/fahrinfo/departure/${id}?footway=0`;
+const departureIdEndpoint = id =>
+  `https://www.mvg.de/api/fahrinfo/departure/${id}?footway=0`;
 
 /**
  * Station endpoint. Can be used with IDs or station names.
@@ -86,7 +83,8 @@ const departureIdEndpoint = (id) => `https://www.mvg.de/api/fahrinfo/departure/$
     ]
 }
  */
-const stationEndpoint = (identifier) => `https://www.mvg.de/api/fahrinfo/location/query?q=${encodeURI(identifier)}`;
+const stationEndpoint = identifier =>
+  `https://www.mvg.de/api/fahrinfo/location/query?q=${encodeURI(identifier)}`;
 
 /**
  * @param {String} stationName 'The name of the station, for example 'Hauptbahnhof'.
@@ -94,134 +92,88 @@ const stationEndpoint = (identifier) => `https://www.mvg.de/api/fahrinfo/locatio
  * @param {String} [apiRedirectUrl] 'An optional redirect URL.'
  */
 function getDepartures(stationName, transportTypes, apiRedirectUrl) {
-    return getStationId(stationName, apiRedirectUrl)
-    .then(stationId =>  getDeparturesById(stationId, transportTypes, apiRedirectUrl));
+  return getStationId(stationName, apiRedirectUrl).then(stationId => {
+    return getDeparturesById(stationId, transportTypes, apiRedirectUrl);
+  });
 }
 
 function getStationId(stationName, apiRedirectUrl) {
-    return getStationByName(stationName, apiRedirectUrl).then(station => station.id);
-}
+  let requestUri = stationEndpoint(stationName);
 
-function getStationByName(stationName, apiRedirectUrl) {
-    let requestUri = stationEndpoint(stationName);
+  if (typeof apiRedirectUrl == "string") {
+    requestUri = `${apiRedirectUrl}/${requestUri}`;
+  }
 
-    if (typeof apiRedirectUrl == "string") {
-        requestUri = `${apiRedirectUrl}/${requestUri}`;
-    }
-
-    return requestPromise(requestUri)
-    .then(requestBody => handleJSON(requestBody))    
-    .then(jsonBody => getStationFromJSON(jsonBody));
-}
-
-function requestPromise(requestUri) {
-    return new Promise((resolve, reject) => {
-        request.get({uri: requestUri, encoding: null, headers: mvgHeader}, (error, response, body) => {
-            handleRequest(error, response, body, resolve, reject);
-        });
-    });
-}
-
-function handleRequest(error, response, body, resolve, reject) {
-    if (successfulRequest(error, response)) {
-        resolve(body)
-    } else if (!error) {
-        console.error(`Connection error, status code: ${response.statusCode}.`);
-        reject(response.statusCode);
-    } else {
-        console.error(`Error: ${error}`);
-        reject(error);
-    }
-}
-
-function successfulRequest(error, response) {
-    return !error && response.statusCode == 200;
-}
-
-function handleJSON(requestBody) {
-    return new Promise((resolve, reject) => {
-        try{
-            resolve(JSON.parse(requestBody));
-        } catch (syntaxException) {
-            console.error(`Could not parse JSON because of invalid syntax: ${syntaxException}`);
-            reject(syntaxException)
-        }
-    });
-}
-
-function getStationFromJSON(jsonBody) {
-    return new Promise((resolve, reject) => {
-        try {
-            const station = jsonBody.locations[0];
-            resolve(station);
-        } catch (exception) {
-            console.error(`JSON wasn't formatted as expected: ${exception}`);
-            reject(exception);
-        }     
+  return needle("get", requestUri, {
+    response_timeout: 3000,
+    open_timeout: 3000
+  })
+    .then(resp => {
+      return resp.body.locations[0].id;
+    })
+    .catch(err => {
+      console.log(err);
     });
 }
 
 function getDeparturesById(stationId, transportTypes, apiRedirectUrl) {
-    let requestUri = departureIdEndpoint(stationId);
+  let requestUri = departureIdEndpoint(stationId);
+  if (typeof apiRedirectUrl == "string") {
+    requestUri = `${apiRedirectUrl}/${requestUri}`;
+  }
 
-    if (typeof apiRedirectUrl == "string") {
-        requestUri = `${apiRedirectUrl}/${requestUri}`;
-    }
-
-    return requestPromise(requestUri)
-    .then(requestBody => handleJSON(requestBody))
-    .then(jsonBody => getLinesFromJSON(jsonBody, transportTypes));
-}
-
-function getLinesFromJSON(jsonBody, transportTypes) {
-    return new Promise((resolve, reject) => {
-        const departures = jsonBody.departures;
-        try {
-            const lines = convertDeparturesToLine(departures)
-            const filteredLines = filterLines(lines, transportTypes);
-            resolve(filteredLines);
-        } catch (exception) {
-            console.error(`Could not get Lines from JSON: ${exception}`);
-            reject(exception);
-        }
-    });
+  return needle("get", requestUri, {
+    response_timeout: 3000,
+    open_timeout: 3000
+  })
+    .then(resp => {
+      const departures = resp.body.departures;
+      const lines = convertDeparturesToLine(departures);
+      const filteredLines = filterLines(lines, transportTypes);
+      return filteredLines;
+    })
+    .catch(err => {});
 }
 
 function convertDeparturesToLine(departures) {
-    return departures.map(departure => {
-        return new Line(departure.label, departure.destination, calculateTimeOffset(departure.departureTime), convertMvgLineTypeToMyLineType(departure.product))
-    });
+  return departures.map(departure => {
+    return new Line(
+      departure.label,
+      departure.destination,
+      calculateTimeOffset(departure.departureTime),
+      convertMvgLineTypeToMyLineType(departure.product)
+    );
+  });
 }
 
 function convertMvgLineTypeToMyLineType(lineType) {
-    switch(lineType) {
-        case 'UBAHN':
-            return 'u';
-        case 'SBAHN':
-            return 's';
-        case 'REGIONAL_BUS':
-        case 'BUS':
-            return 'b';
-        case 'TRAM':
-            return 't';
-        default:
-            return lineType;
-    }
+  switch (lineType) {
+    case "UBAHN":
+      return "u";
+    case "SBAHN":
+      return "s";
+    case "REGIONAL_BUS":
+    case "BUS":
+      return "b";
+    case "TRAM":
+      return "t";
+    default:
+      return lineType;
+  }
 }
 
 function filterLines(lines, transportTypes) {
-    if (typeof(transportTypes) != "undefined") {
-
-        return lines.filter(line => {
-            return transportTypes.includes(line.lineType);
-        });
-    } else {
-        return lines;
-    }
+  if (typeof transportTypes != "undefined") {
+    return lines.filter(line => {
+      return transportTypes.includes(line.lineType);
+    });
+  } else {
+    return lines;
+  }
 }
 
 function calculateTimeOffset(time) {
-    return Math.round((time - Date.now()) / 60000);
+  return Math.round((time - Date.now()) / 60000);
 }
 
 exports.getDepartures = getDepartures;

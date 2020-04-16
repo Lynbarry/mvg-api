@@ -1,0 +1,26 @@
+{
+  "body": {
+    "locations": [
+      {
+        "type": "station",
+        "latitude": 48.116876,
+        "longitude": 11.536213,
+        "id": 1130,
+        "place": "München",
+        "name": "Harraas",
+        "hasLiveData": false,
+        "hasZoomData": true,
+        "products": ["BUS", "UBAHN", "SBAHN"],
+        "lines": {
+          "tram": [],
+          "nachttram": [],
+          "sbahn": ["S7"],
+          "ubahn": ["U6"],
+          "bus": ["53", "54", "130", "132", "134", "X30"],
+          "nachtbus": ["N40", "N41"],
+          "otherlines": []
+        }
+      }
+    ]
+  }
+}
