@@ -8,7 +8,8 @@
     "request": "^2.88.0"
   },
   "scripts": {
-    "test": "jest --watch",
+    "test": "jest",
+    "test:watch": "jest --watch",
     "build": "babel source --presets babel-preset-es2015 --out-dir distribution --ignore '**/*.test.js'",
     "prepublish": "npm run build"
   },
